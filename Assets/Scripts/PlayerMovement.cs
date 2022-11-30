@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     float rotationFactorPerFrame = 15f;
     float runMultiplier = 3.0f;
 
+    Vector3 positionToLookAt;
+
+
     void Awake()
     {
         playerInput = new PlayerInput();
@@ -44,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
 
     void handleRotation()
     {
-        Vector3 positionToLookAt;
 
         positionToLookAt.x = currentMovement.x;
         positionToLookAt.y = 0.0f;
