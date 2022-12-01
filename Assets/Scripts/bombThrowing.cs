@@ -19,8 +19,10 @@ public class bombThrowing : MonoBehaviour
     [SerializeField] Transform bombSpawnPoint;
 
     [SerializeField]Animator animator;
+    [SerializeField] Animator bombeffect;
 
-    bombExplosion explosion;
+    public AudioSource spawnBomb;    
+
 
 
     private void Awake()
@@ -28,13 +30,13 @@ public class bombThrowing : MonoBehaviour
         activeBomb = true;
         isCooldown = false;
 
-        explosion = bomb.GetComponent<bombExplosion>();
+        
     }
 
     public void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.T) && activeBomb == true && isCooldown == false)
+        if (Input.GetKeyDown(KeyCode.R) && activeBomb == true && isCooldown == false)
         {
             bombSpawning();
         }
@@ -44,9 +46,12 @@ public class bombThrowing : MonoBehaviour
             isCooldown = true;
             detonateBomb();
             StartCoroutine(CoolDown());
-        }
 
-        if (Input.GetKeyDown(KeyCode.R) && activeBomb == false)
+            
+        }
+        
+
+        if (Input.GetKeyDown(KeyCode.T) && activeBomb == false)
         {
             throwBomb();
         }
@@ -56,18 +61,23 @@ public class bombThrowing : MonoBehaviour
 
     void bombSpawning()
     {
+       
         newbomb = Instantiate(bomb, bombSpawnPoint.position, bombSpawnPoint.rotation);
         newbomb.transform.SetParent(bombSpawnPoint);
         activeBomb = false;
-        
 
+        
+        spawnBomb.Play();
+
+        bombeffect = newbomb.GetComponent<Animator>();
+      
     }
 
     void detonateBomb()
     {
-        explosion.StartExplosion();
+        bombeffect.SetTrigger("Explosion");
 
-        Destroy(newbomb);
+        Destroy(newbomb, 1);
         activeBomb = true;
        
     }
